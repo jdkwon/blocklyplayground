@@ -1,11 +1,7 @@
 <script type="text/javascript" src="blockly/blockly_compressed.js"></script>
-
 <script type="text/javascript" src="blockly/blocks_compressed.js"></script>
-
-
 <script type="text/javascript" src="blockly/javascript_compressed.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
 <script type="text/javascript" src="blockly/msg/js/en.js"></script>
 
 <script type="text/javascript" src="customBlocks.js"></script>
@@ -64,6 +60,9 @@
             <div style="position:absolute;z-index:4;width:45%;height:37%">
                 <canvas id="catAnimation"></canvas>
             </div>
+            <div style="position:absolute;z-index:4;width:45%;height:37%">
+                <canvas id="homerAnimation"></canvas>
+            </div>
         </div>
         <hr>
         <div style="overflow-y:auto; height:40%;">
@@ -77,6 +76,17 @@
                     </td>
                     <td>
                         <img src="images/cat3_numbered.png" style="margin-left:5px;margin-top:5px;outline-style: solid;outline-width: 1px;height:180px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="images/homer1.png" style="margin-left:5px;margin-top:5px;outline-style: solid;outline-width: 1px;height:180px;" />
+                    </td>
+                    <td>
+                        <img src="images/homer2.png" style="margin-left:5px;margin-top:5px;outline-style: solid;outline-width: 1px;height:180px;" />
+                    </td>
+                    <td>
+                        <img src="images/homer3.png" style="margin-left:5px;margin-top:5px;outline-style: solid;outline-width: 1px;height:180px;" />
                     </td>
                 </tr>
             </table>
@@ -97,10 +107,14 @@
         <block type="whenrunclicked"></block>
         <block type="clearscreen"></block>
     </category>
-    <category name="cats" colour="175">
-        <block type="catpose"></block>
+    <category name="sprites" colour="175">
+        <category name="cats" colour="175">
+            <block type="catpose"></block>
+        </category>
+        <category name="homers" colour="175">
+            <block type="homerpose"></block>
+        </category>
     </category>
-
     <sep></sep>
 
     <category name="Logic" colour="210">
@@ -140,11 +154,15 @@
      * Setup the Canvas *
      ********************/
     var canvas = document.getElementById("catAnimation");
-    canvas.width = 480;
-    canvas.height = 480;
+    canvas.width = 400;
+    canvas.height = 400;
+    
+    var canvas2 = document.getElementById("homerAnimation");
+    canvas2.width = 400;
+    canvas2.height = 400;
 
     var ctx = document.getElementById('catAnimation').getContext('2d');
-
+    var ctx2 = document.getElementById('homerAnimation').getContext('2d');
     var animation = true;
 
     /*********************
@@ -193,14 +211,33 @@
         y: 0
     });
 
+    /**********************
+     * Defining Homer *
+     **********************/
+    var homerImage = new Image();
+    homerImage.src = "images/homer1.png";
+
+    var homer1 = sprite({
+        context: canvas.getContext("2d"),
+        width: 500,
+        height: 500,
+        image: homerImage,
+        x: 0,
+        y: 0
+    });
+    
     /******************
      * Show the cat *
      ******************/
     cat1.render();
+    homer1.render();
 
-    var indexToArrays = 0;
-    var numOfInstructions = 0;
-    var arrayOfPoses = [];
+    var indexToArrays1 = 0;
+    var numOfInstructions1 = 0;
+    var arrayOfPoses1 = [];
+    var indexToArrays2 = 0;
+    var numOfInstructions2 = 0;
+    var arrayOfPoses2 = [];
 
     /**************************************
      * RUN and STOP buttons on the canvas *
@@ -227,19 +264,26 @@
         window.requestAnimationFrame(animate);
     }
 
-    function updatePose(poseNum){
-        arrayOfPoses.push(poseNum);
-        numOfInstructions++;
+    function updatePose1(poseNum){
+        arrayOfPoses1.push(poseNum);
+        numOfInstructions1++;
+    }
+    function updatePose2(poseNum){
+        arrayOfPoses1.push(poseNum);
+        numOfInstructions2++;
     }
 
     function animate() {
         setTimeout(function() {
-            setcatImage(arrayOfPoses[indexToArrays]);
+            setcatImage(arrayOfPoses1[indexToArrays1]);
+            setHomerImage(arrayOfPoses2[indexToArrays2]);
+            indexToArrays1++;
+            indexToArrays2++;
 
-            indexToArrays++;
-
-            if (indexToArrays == numOfInstructions)
-                indexToArrays = 0;
+            if (indexToArrays1 == numOfInstructions1)
+                indexToArrays1 = 0;
+            if (indexToArrays2 == numOfInstructions2)
+                indexToArrays2 = 0;
 
             if (animation) {
                 window.requestAnimationFrame(animate);
@@ -254,6 +298,7 @@
     function resetCanvas(){
         clearCanvas();
         setcatImage(1);
+        setHomerImage(1);
     }
 
     /*************************************
@@ -280,6 +325,18 @@
         ctx.drawImage(cat1.image, cat1.x, cat1.y);
         ctx.save();
         ctx.restore();
+    }
+    /*****************************
+     * Changing the Homer's Pose *
+     *****************************/
+    function setHomerImage(homerIndex){
+        if(!homerIndex)
+          homerIndex = 1;
+        clearCanvas();
+        homerImage.src = "images/homer"+homerIndex+".png";
+        ctx2.drawImage(homer1.image, homer1.x, homer1.y);
+        ctx2.save();
+        ctx2.restore();
     }
 
     /***********************

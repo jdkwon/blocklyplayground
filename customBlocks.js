@@ -41,6 +41,28 @@ Blockly.Blocks['catpose'] = {
     }
 };
 
+Blockly.Blocks['homerpose'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField("Change Pose")
+            .appendField(new Blockly.FieldDropdown([["1","1"],["2","2"],["3","3"]]), "homerIndex");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(140);
+        this.setTooltip("");
+        this.setHelpUrl("");
+    }
+}
+
+Blockly.Blocks['printword'] = {
+    init: function () {
+        this.appendDummyInput()
+            .appendField()
+            .appendField();
+        this.s
+    }
+}
+
 Blockly.JavaScript['whenrunclicked'] = function(block) {
     var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
     var blockCode = statements_name;
@@ -55,5 +77,11 @@ Blockly.JavaScript['clearscreen'] = function(block) {
 Blockly.JavaScript['catpose'] = function(block) {
     var dropdown_catindex = block.getFieldValue('catIndex');
     var blockCode = 'updatePose('+dropdown_catindex+');';
+    return blockCode;
+};
+
+Blockly.JavaScript['homerpose'] = function(block) {
+    var dropdown_homerindex = block.getFieldValue('homerIndex');
+    var blockCode = 'updatePose('+dropdown_homerindex+');';
     return blockCode;
 };

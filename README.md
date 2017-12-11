@@ -19,9 +19,9 @@
 [Blockly Guides](https://developers.google.com/blockly/guides/overview)
 
 ## Requirements
-- [ ] Add a new character with at least 3 new poses in the character pane (10 pts)	
-- [ ] Add a new Blockly category for your new character with a changePose block (5 pts)	
-- [ ] Create a Sprite for your new character (5 pts)	
+- [X] Add a new character with at least 3 new poses in the character pane (10 pts)	
+- [X] Add a new Blockly category for your new character with a changePose block (5 pts)	
+- [X] Create a Sprite for your new character (5 pts)	
 - [ ] Add a function to change your new character's pose (5 pts)	
 - [ ] Ensure you can change poses of both characters - can be all in the same "Run" block (10 pts)	
 - [ ] Add a new Blockly block that displays a word on the screen. (15 pts)
